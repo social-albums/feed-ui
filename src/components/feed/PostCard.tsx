@@ -2,6 +2,7 @@ import { useAuthStore } from '../../store/authStore';
 import { usePost, useDeletePost } from '../../hooks/usePosts';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
+import { MediaCarousel } from '../ui/MediaCarousel';
 import type { FeedEntry } from '../../types';
 
 interface PostCardProps {
@@ -56,11 +57,7 @@ export function PostCard({ entry }: PostCardProps) {
       {/* Media */}
       <div className="aspect-square bg-gray-100">
         {post.media_urls.length > 0 ? (
-          <img
-            src={post.media_urls[0]}
-            alt={post.caption}
-            className="h-full w-full object-cover"
-          />
+          <MediaCarousel urls={post.media_urls} alt={post.caption} className="h-full w-full" />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-gray-400">
             <svg

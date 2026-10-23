@@ -4,6 +4,7 @@ import { usePost, useDeletePost } from '../hooks/usePosts';
 import { Header } from '../components/layout/Header';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { MediaCarousel } from '../components/ui/MediaCarousel';
 
 export function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -38,7 +39,13 @@ export function PostDetailPage() {
 
         {post && (
           <Card padding={false} className="overflow-hidden">
-            {post.media_urls.length > 0 ? (
+            {post.media_urls.length > 1 ? (
+              <MediaCarousel
+                urls={post.media_urls}
+                alt={post.caption}
+                className="aspect-square bg-gray-100"
+              />
+            ) : post.media_urls.length === 1 ? (
               <img
                 src={post.media_urls[0]}
                 alt={post.caption}
