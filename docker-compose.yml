@@ -1,0 +1,46 @@
+services:
+  # Desarrollo: Vite con hot reload -> http://localhost:5173
+  web:
+    build:
+      context: .
+      target: dev
+    container_name: front-feed-dev
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env
+    environment:
+      AUTH_TARGET: http://auth-service:8080
+      FEED_TARGET: http://feed-service:8081
+      CONTENT_TARGET: http://content-service:8082
+      SOCIAL_TARGET: http://social-service:8083
+      MINIO_TARGET: http://minio:9000
+    networks:
+      - default
+      - my-ig-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  # Producción: build estático servido por Nginx -> http://localhost:3000
+  # Levantar con: docker compose --profile prod up --build web-prod
+  web-prod:
+    profiles: ["prod"]
+    build:
+      context: .
+      target: prod
+      args:
+        VITE_AUTH_URL: ${VITE_AUTH_URL:-http://localhost:8080}
+        VITE_FEED_URL: ${VITE_FEED_URL:-http://localhost:8081}
+        VITE_CONTENT_URL: ${VITE_CONTENT_URL:-http://localhost:8082}
+        VITE_SOCIAL_URL: ${VITE_SOCIAL_URL:-http://localhost:8083}
+    container_name: front-feed-prod
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+networks:
+  # Red del docker-compose de feed-backend (levantarlo primero).
+  my-ig-network:
+    external: true
