@@ -31,13 +31,17 @@ services:
       context: .
       target: prod
       args:
-        VITE_AUTH_URL: ${VITE_AUTH_URL:-http://localhost:8080}
-        VITE_FEED_URL: ${VITE_FEED_URL:-http://localhost:8081}
-        VITE_CONTENT_URL: ${VITE_CONTENT_URL:-http://localhost:8082}
-        VITE_SOCIAL_URL: ${VITE_SOCIAL_URL:-http://localhost:8083}
+        # Rutas relativas: nginx las proxea al backend (ver nginx.conf)
+        VITE_AUTH_URL: ${VITE_AUTH_URL:-/api/auth}
+        VITE_FEED_URL: ${VITE_FEED_URL:-/api/feed}
+        VITE_CONTENT_URL: ${VITE_CONTENT_URL:-/api/content}
+        VITE_SOCIAL_URL: ${VITE_SOCIAL_URL:-/api/social}
     container_name: front-feed-prod
     ports:
       - "3000:80"
+    networks:
+      - default
+      - my-ig-network
     restart: unless-stopped
 
 networks:

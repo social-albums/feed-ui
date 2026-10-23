@@ -5,14 +5,14 @@ COPY package.json package-lock.json ./
 
 # ---- Desarrollo (Vite con hot reload) ----
 FROM base AS dev
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 COPY . .
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
 
 # ---- Build ----
 FROM base AS build
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 COPY . .
 # Las variables VITE_* se embeben en el bundle en tiempo de build
 ARG VITE_AUTH_URL
