@@ -9,5 +9,10 @@ export const createPost = (formData: FormData) =>
 export const getPost = (id: string) =>
   contentApi.get<PostResponse>(`/posts/${id}`).then((r) => r.data);
 
+export const getUserPosts = (userId: string, offset: number, limit: number) =>
+  contentApi
+    .get<PostResponse[]>(`/users/${userId}/posts`, { params: { limit, offset } })
+    .then((r) => r.data);
+
 export const deletePost = (id: string) =>
   contentApi.delete(`/posts/${id}`).then(() => undefined);

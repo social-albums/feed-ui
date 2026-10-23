@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 import { ProfileHeader } from '../components/profile/ProfileHeader';
+import { PostGrid } from '../components/profile/PostGrid';
 import { useFollowers, useFollowing } from '../hooks/useSocial';
 
-type Tab = 'followers' | 'following';
+type Tab = 'posts' | 'followers' | 'following';
 
 function RelationList({ ids }: { ids: string[] }) {
   if (ids.length === 0) {
@@ -23,7 +24,7 @@ function RelationList({ ids }: { ids: string[] }) {
 
 export function ProfilePage() {
   const { userId } = useParams<{ userId: string }>();
-  const [tab, setTab] = useState<Tab>('followers');
+  const [tab, setTab] = useState<Tab>('posts');
 
   const { data: followers = [] } = useFollowers(userId ?? '');
   const { data: following = [] } = useFollowing(userId ?? '');
@@ -44,33 +45,30 @@ export function ProfilePage() {
         {/* Tabs */}
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200 overflow-hidden">
           <div className="flex border-b border-gray-200">
-            <button
-              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-                tab === 'followers'
-                  ? 'border-b-2 border-blue-600 text-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-              onClick={() => setTab('followers')}
-            >
-              Followers ({followerIds.length})
-            </button>
-            <button
-              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-                tab === 'following'
-                  ? 'border-b-2 border-blue-600 text-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-              onClick={() => setTab('following')}
-            >
-              Following ({followingIds.length})
-            </button>
+            {(
+              [
+                ['posts', 'Posts'],
+                ['followers', `Followers (${followerIds.length})`],
+                ['following', `Following (${followingIds.length})`],
+              ] as const
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                  tab === key
+                    ? 'border-b-2 border-blue-600 text-blue-600'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+                onClick={() => setTab(key)}
+              >
+                {label}
+              </button>
+            ))}
           </div>
-          <div className="p-4">
-            {tab === 'followers' ? (
-              <RelationList ids={followerIds} />
-            ) : (
-              <RelationList ids={followingIds} />
-            )}
+          <div className={tab === 'posts' ? 'p-1' : 'p-4'}>
+            {tab === 'posts' && <PostGrid userId={userId} />}
+            {tab === 'followers' && <RelationList ids={followerIds} />}
+            {tab === 'following' && <RelationList ids={followingIds} />}
           </div>
         </div>
       </main>
