@@ -7,6 +7,12 @@ import { Card } from '../ui/Card';
 const MAX_CAPTION = 2200;
 const MAX_FILES = 10;
 
+// El backend cuenta caracteres Unicode (code points), no unidades UTF-16 como
+// string.length o el maxLength del textarea: un emoji como 😀 vale 1, no 2.
+function countChars(s: string): number {
+  return Array.from(s).length;
+}
+
 export function PostCreator() {
   const navigate = useNavigate();
   const { mutateAsync: createPost, isPending, error } = useCreatePost();
@@ -44,14 +50,13 @@ export function PostCreator() {
           <textarea
             id="caption"
             value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            maxLength={MAX_CAPTION}
+            onChange={(e) => setCaption(Array.from(e.target.value).slice(0, MAX_CAPTION).join(''))}
             rows={4}
             placeholder="Write a caption…"
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 resize-none"
           />
           <p className="text-right text-xs text-gray-400">
-            {caption.length}/{MAX_CAPTION}
+            {countChars(caption)}/{MAX_CAPTION}
           </p>
         </div>
 

@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Fuente de emojis propia: la del sistema puede no tener los emojis nuevos
+         (ej. Ubuntu 24.04 trae Noto Color Emoji 2.047, sin los de Unicode 16) y
+         se ven como cuadraditos. Google Fonts la parte por rangos Unicode: el
+         navegador baja solo los emojis que aparecen en la página. Pisa a la local
+         del mismo nombre, que ya está en el font-family por defecto de Tailwind. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" />
     <title>FeedApp</title>
   </head>
   <body>
