@@ -1,10 +1,8 @@
 import { feedApi } from './api';
 import type { FeedResponse } from '../types';
 
-export const getFeed = (userId: string, cursor?: string | null, limit = 20) =>
+// El feed es siempre el del usuario autenticado: feed-service lo toma del JWT.
+export const getFeed = (cursor?: string | null, limit = 20) =>
   feedApi
-    .get<FeedResponse>('/feed', {
-      headers: { 'X-User-ID': userId },
-      params: { cursor, limit },
-    })
+    .get<FeedResponse>('/feed', { params: { cursor, limit } })
     .then((r) => r.data);

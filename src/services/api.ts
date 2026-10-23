@@ -43,6 +43,7 @@ function injectBearer(config: InternalAxiosRequestConfig): InternalAxiosRequestC
 // ── Request interceptors (inject Bearer) ─────────────────────────────────────
 
 authApi.interceptors.request.use(injectBearer);
+feedApi.interceptors.request.use(injectBearer);
 contentApi.interceptors.request.use(injectBearer);
 socialApi.interceptors.request.use(injectBearer);
 
@@ -131,5 +132,6 @@ function addRefreshInterceptor(instance: typeof authApi) {
 }
 
 addRefreshInterceptor(authApi);
+addRefreshInterceptor(feedApi);
 addRefreshInterceptor(contentApi);
 addRefreshInterceptor(socialApi);
