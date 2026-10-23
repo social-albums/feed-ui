@@ -21,6 +21,10 @@ export const socialApi = axios.create({
   baseURL: import.meta.env.VITE_SOCIAL_URL as string,
 });
 
+export const notificationApi = axios.create({
+  baseURL: import.meta.env.VITE_NOTIFICATION_URL as string,
+});
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function getAccessToken(): string | null {
@@ -46,6 +50,7 @@ authApi.interceptors.request.use(injectBearer);
 feedApi.interceptors.request.use(injectBearer);
 contentApi.interceptors.request.use(injectBearer);
 socialApi.interceptors.request.use(injectBearer);
+notificationApi.interceptors.request.use(injectBearer);
 
 // ── Token-refresh response interceptor factory ────────────────────────────────
 
@@ -135,3 +140,4 @@ addRefreshInterceptor(authApi);
 addRefreshInterceptor(feedApi);
 addRefreshInterceptor(contentApi);
 addRefreshInterceptor(socialApi);
+addRefreshInterceptor(notificationApi);

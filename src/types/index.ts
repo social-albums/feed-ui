@@ -48,3 +48,19 @@ export interface AuthUser {
   accessToken: string;
   refreshToken: string;
 }
+
+export type NotificationType = 'new_follower' | 'new_post' | 'post_liked' | 'comment_added';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  source_user_id: string;
+  payload: Record<string, string>;
+  read: boolean;
+  created_at: string;
+}
+
+export interface NotificationList {
+  notifications: Notification[];
+  unread_count: number;
+}

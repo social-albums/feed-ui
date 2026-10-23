@@ -14,6 +14,7 @@ services:
       FEED_TARGET: http://feed-service:8081
       CONTENT_TARGET: http://content-service:8082
       SOCIAL_TARGET: http://social-service:8083
+      NOTIFICATION_TARGET: http://notification-service:8084
       MINIO_TARGET: http://minio:9000
     networks:
       - default
@@ -36,6 +37,7 @@ services:
         VITE_FEED_URL: ${VITE_FEED_URL:-/api/feed}
         VITE_CONTENT_URL: ${VITE_CONTENT_URL:-/api/content}
         VITE_SOCIAL_URL: ${VITE_SOCIAL_URL:-/api/social}
+        VITE_NOTIFICATION_URL: ${VITE_NOTIFICATION_URL:-/api/notification}
     container_name: front-feed-prod
     ports:
       - "3000:80"

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../ui/Button';
+import { NotificationBell } from '../notifications/NotificationBell';
 
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -15,6 +16,7 @@ export function Header() {
         <nav className="flex items-center gap-3">
           {isAuthenticated && user ? (
             <>
+              <NotificationBell />
               <Link
                 to={`/profile/${user.userId}`}
                 className="text-sm font-medium text-gray-700 hover:text-blue-600"

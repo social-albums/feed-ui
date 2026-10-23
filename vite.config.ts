@@ -29,6 +29,11 @@ export default defineConfig({
       ...service('/api/feed', target('FEED_TARGET', 'http://localhost:8081')),
       ...service('/api/content', target('CONTENT_TARGET', 'http://localhost:8082')),
       ...service('/api/social', target('SOCIAL_TARGET', 'http://localhost:8083')),
+      // notification-service: REST + WebSocket (/api/notification/ws)
+      '/api/notification': {
+        ...service('/api/notification', target('NOTIFICATION_TARGET', 'http://localhost:8084'))['/api/notification'],
+        ws: true,
+      },
       // Imágenes de MinIO (S3_BASE_URL=/my-ig-media en el backend)
       '/my-ig-media': {
         target: target('MINIO_TARGET', 'http://localhost:9000'),
